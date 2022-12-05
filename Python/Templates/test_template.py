@@ -1,17 +1,29 @@
 from contextlib import redirect_stdout
 
 
-def file_input(path):
+def input_arr_file(path):
     res = []
-    with open(path, 'r') as infile:
+    with open(path, 'r',encoding="utf-8") as infile:
         for line in infile:
             res.append(line)
     return res
 
 
+def input_str_file(path):
+    with open(path, 'r',encoding="utf-8") as infile:
+        text = infile.read()
+    return text
+
+
+def output_text_file(text, path):
+    with open(path, 'w',encoding="utf-8") as outfile:
+        outfile.write(text)
+    return path
+
+
 def output_check(outpath, testpath):
-    out_arr = file_input(outpath)
-    test_arr = file_input(testpath)
+    out_arr = input_arr_file(outpath)
+    test_arr = input_arr_file(testpath)
     errors = {}
     for i in range(min(len(out_arr), len(test_arr))):
         if out_arr[i] != test_arr[i]:
@@ -41,7 +53,7 @@ def test_code_exec(inpath, outpath):
 
 
 def test(func, checkfunc, inputfunc=None, outputfunc=None):
-    TEST_NUMS = list(range(1,12))
+    TEST_NUMS = range(7,8)
     INPUT_FILE = "input.txt"
     OUTPUT_FILE = "output.txt"
     TEST_FILE = "test.txt"
@@ -62,4 +74,4 @@ def test(func, checkfunc, inputfunc=None, outputfunc=None):
 
 
 if __name__ == "__main__":
-    test(test_code_exec, output_check)
+    test(somefunc, output_check, input_str_file, output_text_file)
